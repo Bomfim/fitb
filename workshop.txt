@@ -1,0 +1,6 @@
+version=1
+id=3330106711
+title=F.I.T.B
+description=Adds a new hotkey/keybind to easily transfer items from your inventory directly to your backpack.
+tags=Build 41;Items
+visibility=friendsOnly

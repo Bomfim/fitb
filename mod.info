@@ -1,8 +1,0 @@
-name=F.I.T.B
-poster=poster.png
-id=FITB
-versionMin=41.78
-modversion=1.0.0
-description=Adds a new hotkey/keybind to easily transfer items from your inventory directly to your backpack.
-url=https://github.com/Bomfim/fitb
-authors=MiTTY
