@@ -27,7 +27,7 @@ local function KeyUp(keynum)
         local backpack = playerObj:getClothingItem_Back():getInventory() --getItemContainer()
         local hotBar = getPlayerHotbar(0)
 
-
+        if type(selectedItems) ~= "table" then return; end
         for _, item in pairs(selectedItems) do
             local itemsTable = item.items
             for _, subitem in pairs(itemsTable) do
