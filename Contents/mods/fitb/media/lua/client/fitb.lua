@@ -27,14 +27,15 @@ local function KeyUp(keynum)
         local backpack = playerObj:getClothingItem_Back():getInventory() --getItemContainer()
         local hotBar = getPlayerHotbar(0)
 
-        if type(selectedItems) ~= "table" then return; end
         for _, item in pairs(selectedItems) do
+            if item.items == nil then return; end
+
             local itemsTable = item.items
             for _, subitem in pairs(itemsTable) do
                 if backpack:contains(subitem) then return; end
 
                 local ok = not subitem:isFavorite() and not playerObj:isEquipped(subitem) and
-                subitem:getType() ~= "KeyRing" and not hotBar:isInHotbar(subitem)
+                    subitem:getType() ~= "KeyRing" and not hotBar:isInHotbar(subitem)
                 if ok then
                     ISTimedActionQueue.add(ISInventoryTransferAction:new(playerObj, subitem, subitem:getContainer(),
                         backpack))
