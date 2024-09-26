@@ -13,6 +13,17 @@ if ModOptions and ModOptions.AddKeyBinding then
     ModOptions:AddKeyBinding("[Hotkeys]", KEY_TRANSFER)
 end
 
+local function moveItem(item, playerObj, backpack, hotBar)
+    if backpack:contains(item) then return; end
+
+    local ok = not item:isFavorite() and not playerObj:isEquipped(item) and
+        item:getType() ~= "KeyRing" and not hotBar:isInHotbar(item)
+    if ok then
+        ISTimedActionQueue.add(ISInventoryTransferAction:new(playerObj, item, item:getContainer(),
+            backpack))
+    end
+end
+
 local function KeyUp(keynum)
     if keynum == KEY_TRANSFER.key then
         local playerInv = getPlayerInventory(0)
@@ -28,20 +39,18 @@ local function KeyUp(keynum)
         local hotBar = getPlayerHotbar(0)
 
         for _, item in pairs(selectedItems) do
-            if item.items == nil then return; end
-
-            local itemsTable = item.items
-            for _, subitem in pairs(itemsTable) do
-                if backpack:contains(subitem) then return; end
-
-                local ok = not subitem:isFavorite() and not playerObj:isEquipped(subitem) and
-                    subitem:getType() ~= "KeyRing" and not hotBar:isInHotbar(subitem)
-                if ok then
-                    ISTimedActionQueue.add(ISInventoryTransferAction:new(playerObj, subitem, subitem:getContainer(),
-                        backpack))
+            if item.items == nil then
+                moveItem(item, playerObj, backpack, hotBar)
+            else
+                local itemsTable = item.items
+                for _, subitem in pairs(itemsTable) do
+                    moveItem(subitem, playerObj, backpack, hotBar)
                 end
             end
         end
     end
 end
+
+
+
 Events.OnKeyPressed.Add(KeyUp);
